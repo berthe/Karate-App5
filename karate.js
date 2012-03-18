@@ -4,26 +4,34 @@
  */
 
 var init_question = function() {
-	var descriptions = [
-		"Debout, les pieds l'un contre l'autre",
-		"Debout, les talons joints, les pointes des pieds écartées",
-		"Debout, un pied devant l'autre, formant un L",
-		"Debout, un pied devant l'autre, formant un T",
-		"Debout, les pieds écartés et parallèles"
-	];
-	var positions = [
-		"HEISOKU DACHI",
-		"MUSUBI DACHI",
-		"REINOJI DACHI",
-		"TEÏJI DACHI",
-		"HEIKO DACHI"
-	];
-
-	var index = Math.round( Math.random( ) * ( descriptions.length - 1 ) );
-
-	var question_element = document.getElementById( "question" );
-	question_element.innerHTML = descriptions[ index ];
 	
+	var array_keys = function( array ) {
+		var keys = [];
+		var key;
+		for ( key in array ) {
+			if ( array.hasOwnProperty( key ) ) {
+				keys[ keys.length ] = key;
+			}
+		}
+		return keys;
+	}
+
+	var array_rand = function ( array ) {
+		var rand = function ( min, max ) {
+			return Math.round( Math.random( ) * max ) + min;
+		}
+		return array[ rand( 0, array.length - 1 ) ];
+	}
+	var theme = array_rand( array_keys( karate_data ) );
+	var entry = array_rand( karate_data[ theme ] );
+	
+	// TODO: Selectionner 4 mauvaises réponses dans le même theme
+	// TODO: Mélanger bonne et mauvaises réponses
+	
+	var question_element = document.getElementById( "question" );
+	question_element.innerHTML = entry.description;
+	
+	// TODO: changer ce code
 	var ul_element = document.getElementById( "answers" );
 	var labels = ul_element.getElementsByTagName( "label" );
 	if ( labels ) {
