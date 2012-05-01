@@ -11,7 +11,7 @@ var karate_data = {
 		{ name: 'TEÏJI DACHI'                         , description: 'Debout un pied devant l\'autre formant un T' },
 		{ name: 'HEIKO DACHI'                         , description: 'Debout pieds écartés et parallèles' },
 		{ name: 'HACHIJI DACHI'                       , description: 'Debout pieds pointés vers l\'extérieur écartés de la largeur des hanches' },
-		{ name: 'UCHI HACHIJI DACHI'                  , description: 'idem mais pieds pointés vers l\'intérieur' },
+		{ name: 'UCHI HACHIJI DACHI'                  , description: 'Debout pieds pointés vers l\'intérieur écartés de la largeur des hanches' },
 		{ name: 'ZENKUTSU DACHI'                      , description: 'Fente avant : jambe avant fléchie, jambe arrière tendue.' },
 		{ name: 'KOKUTSU DACHI'                       , description: 'Fente arrière 70% du poids du corps sur la jambe arrière' },
 		{ name: 'KIBA DACHI'                          , description: 'Position du cavalier' },
