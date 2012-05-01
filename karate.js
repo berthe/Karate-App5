@@ -3,49 +3,108 @@
  * For more information, please refer to <http://unlicense.org/>
  */
 
-var init_question = function() {
-	
-	var array_keys = function( array ) {
-		var keys = [];
-		var key;
-		for ( key in array ) {
-			if ( array.hasOwnProperty( key ) ) {
-				keys[ keys.length ] = key;
-			}
-		}
-		return keys;
-	}
+ 
+// UTILS
+var array_rand = function ( array ) {
+	return array[ array_index_rand( array ) ];
+}
+var array_index_rand = function ( array ) {
 
-	var array_rand = function ( array ) {
-		var rand = function ( min, max ) {
-			return Math.round( Math.random( ) * max ) + min;
-		}
-		return array[ rand( 0, array.length - 1 ) ];
+	//UTILS
+	var rand = function ( min, max ) {
+		return Math.round( Math.random( ) * max ) + min;
 	}
-	var theme = array_rand( array_keys( karate_data ) );
-	var entry = array_rand( karate_data[ theme ] );
 	
-	// TODO: Selectionner 4 mauvaises réponses dans le même theme
-	// TODO: Mélanger bonne et mauvaises réponses
+	// LOGIC
+	return rand( 0, array.length - 1 );
+}
+var array_index_rands = function ( array, size ) {
 	
-	var question_element = document.getElementById( "question" );
-	question_element.innerHTML = entry.description;
+	// UTILS
+	var array_indexs = function( array ) {
+		var indexs = [];
+		var index;
+		for ( index in array ) {
+			if ( array.hasOwnProperty( index ) ) {
+				indexs.push( index );
+			}
+		}
+		return indexs;
+	}
+	var in_array = function( element, array ) {
+		return ( array.indexOf( element ) != -1 );
+	}
 	
-	// TODO: changer ce code
-	var ul_element = document.getElementById( "answers" );
-	var labels = ul_element.getElementsByTagName( "label" );
-	if ( labels ) {
-		for ( var i=0; i<labels.length; i++ ) {
-			labels[ i ].childNodes[ 0 ].value = i;
-			labels[ i ].childNodes[ 1 ].innerHTML = positions[ i ];
-			if ( i == index ) {
-				labels[ i ].onclick = function( ){ alert('Bonne réponse'); init_question(); return false; };
+	// LOGIC
+	var rands = [];
+	if ( size >= array.length ) {
+		// TODO : mélanger
+		rands = array_indexs( array );
+	} else {
+		for ( var i=0; i < size; i++ ) {
+			var index = array_index_rand( array );
+			if ( in_array( index, rands ) ) {
+				i--;
 			} else {
-				labels[ i ].onclick = function( ){ alert('Mauvaise réponse'); init_question(); return false; };
+				rands.push( index );
 			}
 		}
 	}
-	
+	return rands;
 }
 
-window.onload = init_question;
+// Karate App5
+var karate_app5 = function( ) {
+
+	// UTILS
+	var get_user_answer = function( ) {
+		for ( var i=0; i < document.karate.answer.length; i++ ) {
+			if ( document.karate.answer[i].checked ) {
+				return document.karate.answer[i].value;
+			}
+		}
+	}
+	var init_question = function( ) {
+	
+		document.getElementById( "score_good" ).innerHTML = cpt_good;	
+		document.getElementById( "score_total" ).innerHTML = cpt_total;	
+		// TODO: Pouvoir choisir le theme
+		var theme = 'positions';
+		var index_answers = array_index_rands( karate_data[ theme ], 5 );
+		index_good_answer = array_rand( index_answers );
+	
+		var definition_element = document.getElementById( "definition" );
+		definition_element.innerHTML = karate_data[ theme ][ index_good_answer ].description;
+		var ul_element = document.getElementById( "answers" );
+		ul_element.innerHTML = '';
+		for ( var i=0; i < index_answers.length; i++ ) {
+			ul_element.innerHTML += '<li><label><input type="radio" name="answer" value="'+index_answers[i]+'" /><span>'+karate_data[ theme ][ index_answers[i] ].name+'<span></label></li>';
+		}
+	}
+	
+	// LOGIC
+	var cpt_total = 0;
+	var cpt_good = 0;
+	var index_good_answer;
+	init_question( );
+	var form_element = document.forms['karate'];
+	form_element.onsubmit = function( ) {
+		var user_answer = get_user_answer( );
+		if ( user_answer != null ) {
+			if ( user_answer == index_good_answer ) {
+				alert( 'good' );
+				cpt_good ++ ;
+			} else {
+				alert( 'bad' );
+			}
+			cpt_total ++;
+		
+			init_question( );
+		} else {
+			alert( 'cocher la réponse');
+		}
+		return false;
+	}
+}
+
+window.onload = karate_app5;

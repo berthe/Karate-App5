@@ -7,17 +7,23 @@
 		<script type="text/javascript" src="./karate.js"></script>
 	</head>
 	<body>
-		<form name="karate">
-			<h1>Karaté : Révisez vos positions</h1>
-			<h2>A quoi correspond la définition suivante ?</h2>
-			<p id="question">Debout les pieds l'un contre l'autre</p>
-			<ul id="answers">
-				<li><label><input type="radio" name="answer" value="1" /><span>Proposition 1<span></label></li>
-				<li><label><input type="radio" name="answer" value="2" /><span>Proposition 2<span></label></li>
-				<li><label><input type="radio" name="answer" value="3" /><span>Proposition 3<span></label></li>
-				<li><label><input type="radio" name="answer" value="4" /><span>Proposition 4<span></label></li>
-				<li><label><input type="radio" name="answer" value="5" /><span>Proposition 5<span></label></li>
-			</ul>
-		</form>
-	<body>
+		<div id="container">
+			<h1>Révisez votre Karaté</h1>
+			<div id="sidebar">
+				<h3>
+					<span id="score_good"></span> / <span id="score_total"></span>
+				</h3>
+			</div>
+			<div id="main">
+				<form name="karate">
+					<h2 id="question">A quoi correspond la position suivante ?</h2>
+					<p id="definition">Debout les pieds l'un contre l'autre</p>
+					<ul id="answers">
+						<!-- <li><label><input type="radio" name="answer" value="1" /><span>Proposition 1<span></label></li> -->
+					</ul>
+					<button type="submit">Valider</button>
+				</form>
+			</div>
+		</div>
+	</body>
 </html>
