@@ -8,6 +8,16 @@
 var array_rand = function ( array ) {
 	return array[ array_index_rand( array ) ];
 }
+var array_indexs = function( array ) {
+	var indexs = [];
+	var index;
+	for ( index in array ) {
+		if ( array.hasOwnProperty( index ) ) {
+			indexs.push( index );
+		}
+	}
+	return indexs;
+}
 var array_index_rand = function ( array ) {
 
 	//UTILS
@@ -16,21 +26,12 @@ var array_index_rand = function ( array ) {
 	}
 	
 	// LOGIC
-	return rand( 0, array.length - 1 );
+	array = array_indexs( array );
+	return array[ rand( 0, array.length - 1 ) ];
 }
 var array_index_rands = function ( array, size ) {
 	
 	// UTILS
-	var array_indexs = function( array ) {
-		var indexs = [];
-		var index;
-		for ( index in array ) {
-			if ( array.hasOwnProperty( index ) ) {
-				indexs.push( index );
-			}
-		}
-		return indexs;
-	}
 	var in_array = function( element, array ) {
 		return ( array.indexOf( element ) != -1 );
 	}
@@ -67,18 +68,18 @@ var karate_app5 = function( ) {
 	var init_question = function( ) {
 	
 		document.getElementById( "score_good" ).innerHTML = cpt_good;	
-		document.getElementById( "score_total" ).innerHTML = cpt_total;	
-		// TODO: Pouvoir choisir le theme
-		var theme = 'positions';
-		var index_answers = array_index_rands( karate_data[ theme ], 5 );
+		document.getElementById( "score_total" ).innerHTML = cpt_total;
+		
+		var theme = array_index_rand( karate_data );
+		document.getElementById( "question_theme" ).innerHTML = karate_data[ theme ].name;
+		
+		var index_answers = array_index_rands( karate_data[ theme ].list, 5 );
 		index_good_answer = array_rand( index_answers );
-	
-		var definition_element = document.getElementById( "definition" );
-		definition_element.innerHTML = karate_data[ theme ][ index_good_answer ].description;
+		document.getElementById( "definition" ).innerHTML = karate_data[ theme ].list[ index_good_answer ].description;
 		var ul_element = document.getElementById( "answers" );
 		ul_element.innerHTML = '';
 		for ( var i=0; i < index_answers.length; i++ ) {
-			ul_element.innerHTML += '<li><label><input type="radio" name="answer" value="'+index_answers[i]+'" /><span>'+karate_data[ theme ][ index_answers[i] ].name+'<span></label></li>';
+			ul_element.innerHTML += '<li><label><input type="radio" name="answer" value="'+index_answers[i]+'" /><span>'+karate_data[ theme ].list[ index_answers[i] ].name+'<span></label></li>';
 		}
 	}
 	
@@ -87,8 +88,7 @@ var karate_app5 = function( ) {
 	var cpt_good = 0;
 	var index_good_answer;
 	init_question( );
-	var form_element = document.forms['karate'];
-	form_element.onsubmit = function( ) {
+	document.forms['karate'].onsubmit = function( ) {
 		var user_answer = get_user_answer( );
 		if ( user_answer != null ) {
 			if ( user_answer == index_good_answer ) {
@@ -103,6 +103,11 @@ var karate_app5 = function( ) {
 		} else {
 			alert( 'cocher la réponse');
 		}
+		return false;
+	}
+	document.getElementById( "autre" ).onclick = function( ) {
+		init_question( );
+	
 		return false;
 	}
 }

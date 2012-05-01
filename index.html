@@ -11,17 +11,18 @@
 			<h1>Révisez votre Karaté</h1>
 			<div id="sidebar">
 				<h3>
-					<span id="score_good"></span> / <span id="score_total"></span>
+					Votre score : <span id="score_good"></span> / <span id="score_total"></span>
 				</h3>
 			</div>
 			<div id="main">
 				<form name="karate">
-					<h2 id="question">A quoi correspond la position suivante ?</h2>
-					<p id="definition">Debout les pieds l'un contre l'autre</p>
-					<ul id="answers">
-						<!-- <li><label><input type="radio" name="answer" value="1" /><span>Proposition 1<span></label></li> -->
-					</ul>
+					<h2 id="question">
+						<small>A quoi correspond <span id="question_theme"></span> ?</small><br>
+						<span id="definition"></span>
+					</h2>
+					<ul id="answers"></ul>
 					<button type="submit">Valider</button>
+					<button id="autre" type="submit">Passer cette question</button>
 				</form>
 			</div>
 		</div>
